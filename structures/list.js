@@ -22,15 +22,11 @@ LIST.prototype.__addSpaces = function(num, index) {
     }
 };
 
+//TODO: deprecated
 // Removes a number (num) of spaces starting at a given position (index).
 LIST.prototype.__removeSpaces = function(num, index) {
-    console.log(num);
-    console.log(index);
   if (index + num > this.__internal.length) { num = this.__internal.length - index; }
-    console.log(num);
-    console.log(index);
   for (var i = index; i < index + num; i++) {
-      console.log('for');
       this.__internal[i] = this.__internal[i+num];
     }
   _.initial(this.__internal, num);
