@@ -1,0 +1,17 @@
+{
+    "name" : "collections",
+    "description" : "A set of usefull data structures.",
+    "version" : "0.0.1",
+    "author" : "Alejandro Galvan (khanogalvan@gmail.com)",
+    "contributors" : {},
+    "dependencies" : {
+        "underscore" : ">=1.2.2"
+    },
+    "devDependencies" : {
+        "vows" : "0.6.1",
+        "log" : "1.2.0"
+    },
+    "keywords" : ["data", "structures", "collections", "set", "list", "array", "map"],
+    "main" : "index.js",
+    "engines" : { "node" : ">= 0.4.1"}
+}
