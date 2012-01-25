@@ -15,6 +15,7 @@ var LIST = module.exports = function LIST() {
 // Internal array to handle all the information
 //LIST.prototype.__internal = [];
 
+//TODO: i dont think this is needed
 // Adds a number (num) of spaces starting at a given position (index).
 LIST.prototype.__addSpaces = function(num, index) {
   for (var i = this.__internal.length - 1; i >= index; i--) {
@@ -136,6 +137,8 @@ LIST.prototype.removeObject = function(obj) {
   }
 };
 
+//TODO: removeall === clear?
+
 /**
  * Removes a range of objects from the list, starting at a give index (zero-based) and ending at another index (one-based).
  *
@@ -166,3 +169,6 @@ LIST.prototype.set = function(index, obj) {
 LIST.prototype.size = function() {
   return this.__internal.length;
 };
+
+//TODO: a way to clean up the list, cleanup empty spaces if any? should 
+//that funcion be used internally only by us
