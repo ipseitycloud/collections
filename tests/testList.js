@@ -1,15 +1,17 @@
 
-var vows = require('vows')
-  , assert = require('assert')
-  , collections = require('../index.js')
-  , Log = require('Log')
-  , log = new Log();
-  
-var List = collections.getList();
+var vows = require('vows'),
+  assert = require('assert'),
+  collections = require('../index.js');
+//  , Log = require('Log')
+//  , log = new Log();
 
+var List = collections.getList();
 var TEST = vows.describe('List test').addBatch({
     'Creating new list' : {
-      topic : new List(),
+      topic : function (){
+          var list = new List();
+          return list;
+      },
       'is not undefined' : function(list) {
         assert.notEqual(list, undefined, 'List is undefined');
       },
@@ -23,7 +25,7 @@ var TEST = vows.describe('List test').addBatch({
         assert.ok(list.contains('Test'), 'List does not contain Test');
         assert.equal(list.indexOf('Test'), 0, 'Test is not at first element');
         list.clear();
-        assert.equal(list.size(), 0, 'List has elements');
+        assert.equal(list.size(), 0, 'List has elements');;
       },
       teardown : function(list){
         list.clear();
@@ -31,15 +33,16 @@ var TEST = vows.describe('List test').addBatch({
     }
   }).addBatch({
     'Checking some methods' : {
-      topic : new List(),
+      topic : function (){
+          var list = new List();
+          return list;
+      },
       'Adding 5, removing 1, removing 2, contains and index' : function(list) {
         list.addAll(['One', 'Two', 'Three', 'Four', 'Five']);
-        console.log(list.size());
-        for (var i=0; i<list.size(); i++) {console.log(list.get(i));}
         assert.equal(list.size(), 5, 'Problem inserting an array of 5');
-        list.removeIndex(2);
+        list.removeIndex(2);        
         assert.equal(list.size(), 4, 'Problem while removing 1 item');
-        list.removeRange(1, 3);
+        list.removeRange(1, 2);
         assert.equal(list.size(), 2, 'Problem while removing range');
         assert.equal(list.contains('Two'), false, 'List does contain Two');
         assert.equal(list.contains('Five'), true, 'List does not contain Five');

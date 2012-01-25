@@ -1,10 +1,7 @@
-
-var List = require('./structures/list.js');
-
 var COLLECTIONS = {};
 
 COLLECTIONS.getList = function() {
-  return List;
-}
+  return require('./structures/list.js');
+};
 
 module.exports = COLLECTIONS;
