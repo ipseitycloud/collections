@@ -13,9 +13,6 @@ var TEST = vows.describe('List test').addBatch({
       'is not undefined' : function(list) {
         assert.notEqual(list, undefined, 'List is undefined');
       },
-      teardown : function(list){
-        list.clear();
-      },
       'is not null' : function(list) {
         assert.notEqual(list, null, 'List is null');
       },
@@ -27,6 +24,9 @@ var TEST = vows.describe('List test').addBatch({
         assert.equal(list.indexOf('Test'), 0, 'Test is not at first element');
         list.clear();
         assert.equal(list.size(), 0, 'List has elements');
+      },
+      teardown : function(list){
+        list.clear();
       }
     }
   }).addBatch({
@@ -46,7 +46,9 @@ var TEST = vows.describe('List test').addBatch({
         assert.equal(list.indexOf('Three'), -1, 'Three was found');
         assert.equal(list.indexOf('One'), 0, 'One is not at the first element');
       },
-      teardown : function(){}
+      teardown : function(list){
+        list.clear();
+      }
     }
   });
 
