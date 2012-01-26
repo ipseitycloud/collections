@@ -4,7 +4,6 @@
 
 // variables
 var _ = require('underscore');
-var Log = require('Log'), log = new Log();
 
 // The List
 var LIST = module.exports = function LIST() {
