@@ -4,33 +4,11 @@
 
 // variables
 var _ = require('underscore');
-//  , Log = require('Log')
-//  , log = new Log();
+var Log = require('Log'), log = new Log();
 
 // The List
 var LIST = module.exports = function LIST() {
     this.__internal = [];
-};
-
-// Internal array to handle all the information
-//LIST.prototype.__internal = [];
-
-//TODO: i dont think this is needed
-// Adds a number (num) of spaces starting at a given position (index).
-LIST.prototype.__addSpaces = function(num, index) {
-  for (var i = this.__internal.length - 1; i >= index; i--) {
-      this.__internal[i+num] = this.__internal[i];
-    }
-};
-
-//TODO: deprecated
-// Removes a number (num) of spaces starting at a given position (index).
-LIST.prototype.__removeSpaces = function(num, index) {
-  if (index + num > this.__internal.length) { num = this.__internal.length - index; }
-  for (var i = index; i < index + num; i++) {
-      this.__internal[i] = this.__internal[i+num];
-    }
-  _.initial(this.__internal, num);
 };
 
 /**
@@ -40,12 +18,8 @@ LIST.prototype.__removeSpaces = function(num, index) {
  * @param {Number} index  Optional. The position (zero-based) on which the object will be inserted on. If this is not provided then the object is inserted at the end of the list.
  */
 LIST.prototype.add = function(obj, index) {
-  if (index) {
-    this.__addSpaces(1, index);
-    this.__internal[index] = obj;
-  } else {
-    this.__internal.push(obj);
-  }
+  if (!index) { index = this.__internal.length; }
+  this.__internal.splice(index, 0, obj);
 };
 
 /**
@@ -55,19 +29,15 @@ LIST.prototype.add = function(obj, index) {
  * @param {Number} index  Optional. The position (zero-based) on which the object will be inserted on. If this is not provided then the object is inserted at the end of the list.
  */
 LIST.prototype.addAll = function(array, index) {
-  if (index) { index--; }
-  var current = this;
-  array.forEach(function(elem) {
-      if (index) {
-        index++;
-      }
-      current.add(elem, index);
-  });
-  //TODO: concat wont help here better?
+  if (index) {
+    this.__internal = this.__internal.slice(0, index).concat(array, this.__internal.slice(index));
+  } else {
+    this.__internal = this.__internal.concat(array);
+  }
 };
 
 /**
- * Clears this list.
+ * Removes all elements on this list.
  */
 LIST.prototype.clear = function() {
   this.__internal = [];
@@ -121,7 +91,6 @@ LIST.prototype.isEmpty = function() {
  * @param {Number} index  The index on which the object will be removed.
  */
 LIST.prototype.removeIndex = function(index) {
-  //this.__removeSpaces(1, index);
   this.__internal.splice(index,1);
 };
 
@@ -132,23 +101,18 @@ LIST.prototype.removeIndex = function(index) {
  */
 LIST.prototype.removeObject = function(obj) {
   var index = this.indexOf(obj);
-  if (index != -1 ) { //this.removeIndex(index); }
-    this.__internal.splice(index,1);
-  }
+  if (index != -1 ) { this.__internal.splice(index,1); }
 };
-
-//TODO: removeall === clear?
 
 /**
  * Removes a range of objects from the list, starting at a give index (zero-based) and ending at another index (one-based).
  *
- * @param {Number} fromIndexInc  The index to start removing at (inclusive).
- * @param {Number} toIndexExc  The index to end removing at (exclusive).
+ * @param {Number} fromIndex  The index to start removing at (inclusive).
+ * @param {Number} toIndex  The index to end removing at (inclusive).
  */
-LIST.prototype.removeRange = function(fromIndexInc, toIndexExc) {
-  //var num = toIndexExc - fromIndexInc;
-  //this.__removeSpaces(num, fromIndexInc);
-  this.__internal.splice(fromIndexInc,toIndexExc);
+LIST.prototype.removeRange = function(fromIndex, toIndex) {
+  if (toIndex > this.__internal.length) { toIndex = this.__internal.length - 1; }
+  this.__internal.splice(fromIndex,toIndex);
 };
 
 /**

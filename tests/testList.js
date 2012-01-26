@@ -1,11 +1,14 @@
-
+/**
+ * Test for the list collection.
+ */
 var vows = require('vows'),
   assert = require('assert'),
   collections = require('../index.js');
-//  , Log = require('Log')
-//  , log = new Log();
 
+// the list class
 var List = collections.getList();
+
+// the test to run
 var TEST = vows.describe('List test').addBatch({
     'Creating new list' : {
       topic : function (){
@@ -25,7 +28,7 @@ var TEST = vows.describe('List test').addBatch({
         assert.ok(list.contains('Test'), 'List does not contain Test');
         assert.equal(list.indexOf('Test'), 0, 'Test is not at first element');
         list.clear();
-        assert.equal(list.size(), 0, 'List has elements');;
+        assert.equal(list.size(), 0, 'List has elements');
       },
       teardown : function(list){
         list.clear();
@@ -48,6 +51,39 @@ var TEST = vows.describe('List test').addBatch({
         assert.equal(list.contains('Five'), true, 'List does not contain Five');
         assert.equal(list.indexOf('Three'), -1, 'Three was found');
         assert.equal(list.indexOf('One'), 0, 'One is not at the first element');
+      },
+      teardown : function(list){
+        list.clear();
+      }
+    }
+  }).addBatch({
+    'Checking the rest of methods' : {
+      topic : function() {
+        var list = new List();
+        return list;
+      },
+      'Add 2, Add 1 in middle, add 3 in the middle, removeObject, set, clear, isEmpty' : function(list) {
+        list.addAll(['First', 'Last']);
+        list.add('Second', 1);
+        assert.equal(list.size(), 3, 'The size is not 3');
+        assert.equal(list.get(1), 'Second', 'The add in index failed');
+        assert.equal(list.get(2), 'Last', 'Add in index did not proper sliced');
+        list.addAll(['Thrid', 'Fourth', 'Fifth'], 2);
+        assert.equal(list.size(), 6, 'The size is not 6');
+        assert.equal(list.get(2), 'Thrid', 'The addAll in index failed');
+        assert.equal(list.get(5), 'Last', 'AddAll in index did not proper sliced to the right');
+        assert.equal(list.get(0), 'First', 'AddAll in index did not proper sliced to the left');
+        assert.isTrue(list.contains('Fourth'));
+        list.removeObject('Fourth');
+        assert.isFalse(list.contains('Fourth'));
+        assert.equal(list.size(), 5, 'Remove object did not get re-ordered all');
+        assert.equal(list.get(3), 'Fifth', 'Remove object did not removed the space the list');
+        list.set(4, 'Test');
+        assert.equal(list.indexOf('Test'), 4, 'Set did not worked properly');
+        assert.equal(list.size(), 5, 'Set altered the size');
+        list.clear();
+        assert.equal(list.size(), 0, 'List has elements');
+        assert.isTrue(list.isEmpty());
       },
       teardown : function(list){
         list.clear();
